@@ -4,11 +4,18 @@ import (
 	"github.com/ioak-dev/template-golang-service/src/controllers"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 )
 
 func main() {
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+
 	r := mux.NewRouter()
 	helloApi := r.PathPrefix("/hello").Subrouter()
 	helloApi.HandleFunc("", controllers.GetHello).Methods(http.MethodGet)
@@ -18,5 +25,5 @@ func main() {
 	helloApi.HandleFunc("", controllers.NotFoundHello)
 	helloApi.HandleFunc("/user/{userID}", controllers.ParamsHello).Methods(http.MethodGet)
 
-	log.Fatal(http.ListenAndServe(":8080", r))
+	log.Fatal(http.ListenAndServe(":" + port, r))
 }

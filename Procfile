@@ -1,1 +1,1 @@
-web: .\template-golang-service
+web: template-golang-service
