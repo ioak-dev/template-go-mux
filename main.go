@@ -13,17 +13,18 @@ func main() {
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		log.Fatal("$PORT must be set")
+		// log.Fatal("$PORT must be set")
+		port = "8080"
 	}
 
 	r := mux.NewRouter()
-	helloApi := r.PathPrefix("/hello").Subrouter()
-	helloApi.HandleFunc("", controllers.GetHello).Methods(http.MethodGet)
-	helloApi.HandleFunc("", controllers.PostHello).Methods(http.MethodPost)
-	helloApi.HandleFunc("", controllers.PutHello).Methods(http.MethodPut)
-	helloApi.HandleFunc("", controllers.DeleteHello).Methods(http.MethodDelete)
-	helloApi.HandleFunc("", controllers.NotFoundHello)
-	helloApi.HandleFunc("/user/{userID}", controllers.ParamsHello).Methods(http.MethodGet)
+	helloAPI := r.PathPrefix("/hello").Subrouter()
+	helloAPI.HandleFunc("", controllers.GetHello).Methods(http.MethodGet)
+	helloAPI.HandleFunc("", controllers.PostHello).Methods(http.MethodPost)
+	helloAPI.HandleFunc("", controllers.PutHello).Methods(http.MethodPut)
+	helloAPI.HandleFunc("", controllers.DeleteHello).Methods(http.MethodDelete)
+	helloAPI.HandleFunc("", controllers.NotFoundHello)
+	helloAPI.HandleFunc("/user/{userID}", controllers.ParamsHello).Methods(http.MethodGet)
 
 	log.Fatal(http.ListenAndServe(":" + port, r))
 }
